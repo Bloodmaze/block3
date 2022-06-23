@@ -1,44 +1,43 @@
 package ru.hogwarts.school.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.webjars.NotFoundException;
 import ru.hogwarts.school.model.Student;
+import ru.hogwarts.school.repository.StudentRepository;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 @Service
 public class StudentService {
 
-    private final HashMap<Long, Student> studentMap = new HashMap<>();
+    private final StudentRepository studentRepository;
 
-    private long lastId = 0;
+    @Autowired
+    public StudentService(StudentRepository studentRepository) {
+        this.studentRepository = studentRepository;
+    }
 
     public List<Student> filterByAge(Integer age) {
-        return studentMap.values().stream().filter(student -> student.getAge() == age).collect(Collectors.toList());
-
+        return studentRepository.findStudentByAge(age);
     }
 
 
     public Student createStudent(Student student) {
-        student.setId(++lastId);
-        studentMap.put(lastId, student);
-        return student;
+        return studentRepository.save(student);
     }
 
     public Student findStudent(long id) {
-        return studentMap.get(id);
+        return studentRepository.findById(id).orElseThrow(() -> new NotFoundException("Student not found"));
     }
 
     public Student updateUser(Student student) {
-        if (studentMap.containsKey(student.getId())) {
-            studentMap.put(student.getId(), student);
-            return student;
-        }
-        return null;}
-
-        public Student deleteUser(long id){
-            return studentMap.remove(id);
-        }
+        return studentRepository.save(student);
     }
+
+    public void deleteUser(long id) {
+        studentRepository.deleteById(id);
+    }
+}
 
