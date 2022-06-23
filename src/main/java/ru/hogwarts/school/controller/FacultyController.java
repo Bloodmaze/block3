@@ -25,7 +25,8 @@ public class FacultyController {
 
 
     @PostMapping//POST
-    public Faculty createFaculty(Faculty faculty) {
+    public Faculty createFaculty(@RequestBody Faculty faculty) {
+
         return facultyService.createFaculty(faculty);
     }
 
@@ -39,7 +40,7 @@ public class FacultyController {
     }
 
     @PutMapping//PUT
-    public ResponseEntity<Faculty> editFaculty(Faculty faculty) {
+    public ResponseEntity<Faculty> editFaculty(@RequestBody Faculty faculty) {
         Faculty faculty1 = facultyService.updateFaculty(faculty);
         if (faculty1 == null) {
             return ResponseEntity.notFound().build();
