@@ -5,13 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.webjars.NotFoundException;
 import ru.hogwarts.school.model.Faculty;
+import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repository.FacultyRepository;
 
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @Service
 public class FacultyService {
@@ -25,8 +23,9 @@ public class FacultyService {
         this.facultyRepository = facultyRepository;
     }
 
-    public List<Faculty> filterByColor(String color) {
-        return facultyRepository.findFacultyByColor(color);
+    public List<Student> getFacultyStudent(Long id) {
+        Faculty faculty = facultyRepository.findById(id).orElseThrow(() -> new NotFoundException("Faculty not found"));
+        return faculty.getStudents();
     }
 
     public Faculty createFaculty(Faculty faculty) {
@@ -45,5 +44,15 @@ public class FacultyService {
         facultyRepository.deleteById(id);
     }
 
+    public List<Faculty> getAllFaculty() {
+        return facultyRepository.findAll();
+    }
 
+    public List<Faculty> findFacultyByNameOrColor(String name, String color) {
+        return facultyRepository.findFacultyByNameIgnoreCaseOrColorIgnoreCase(name, color);
+    }
 }
+
+
+
+
