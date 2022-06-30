@@ -48,10 +48,14 @@ public class FacultyService {
         return facultyRepository.findAll();
     }
 
-    public List<Faculty> findFacultyByNameOrColor(String name, String color) {
-        return facultyRepository.findFacultyByNameIgnoreCaseOrColorIgnoreCase(name, color);
+    public List<Faculty> findFacultyByNameOrColor(String nameOrColor) {
+
+            return facultyRepository.findFacultyByNameIgnoreCaseOrColorIgnoreCase(nameOrColor,nameOrColor);
+        }
+
     }
-}
+
+
 
 
 

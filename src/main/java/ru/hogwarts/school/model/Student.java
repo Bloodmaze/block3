@@ -28,6 +28,10 @@ public class Student {
         return id;
     }
 
+    public void setFaculty(Faculty faculty) {
+        this.faculty = faculty;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }

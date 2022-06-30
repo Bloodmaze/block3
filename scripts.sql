@@ -8,7 +8,7 @@ from student;
 
 select *
 from student
-where name like '%%o%%';
+where name like '%o%';
 
 select*
 from student

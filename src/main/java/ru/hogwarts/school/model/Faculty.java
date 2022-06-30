@@ -39,6 +39,10 @@ public class Faculty {
         return id;
     }
 
+    public void setStudents(List<Student> students) {
+        this.students = students;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }

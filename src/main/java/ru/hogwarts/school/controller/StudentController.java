@@ -36,7 +36,7 @@ public class StudentController {
         return studentService.createStudent(student);
     }
 
-    @GetMapping("{id}") /// GET
+    @GetMapping("/{id}") /// GET
     public ResponseEntity getStudent(@PathVariable Long id) {
         Student student = studentService.findStudent(id);
         if (student == null) {
@@ -48,9 +48,6 @@ public class StudentController {
     @GetMapping
     public ResponseEntity<List<Student>> findStudentByAgeBetween(Integer min, Integer max) {
         List<Student> students = studentService.findStudentByAgeBetween(min, max);
-        if (students.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
         return ResponseEntity.ok(students);
     }
 
@@ -63,7 +60,7 @@ public class StudentController {
         return ResponseEntity.ok(student1);
     }
 
-    @DeleteMapping("{id}")///DELETE
+    @DeleteMapping("/{id}")///DELETE
     public void deleteStudent(@PathVariable Long id) {
         studentService.deleteUser(id);
     }
