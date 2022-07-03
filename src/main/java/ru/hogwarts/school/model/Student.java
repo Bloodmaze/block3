@@ -56,6 +56,7 @@ public class Student {
         return faculty;
     }
 
+
     @Override
     public String toString() {
         return "Student{" +
