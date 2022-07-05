@@ -8,7 +8,6 @@ import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repository.AvatarRepository;
 import ru.hogwarts.school.repository.StudentRepository;
 
-import javax.transaction.Transactional;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -16,11 +15,9 @@ import java.nio.file.Path;
 import static java.nio.file.StandardOpenOption.CREATE_NEW;
 
 @Service
-@Transactional
-public class AvatarService {
+public class AvatarService implements AvatarServiceImpl {
 
     private final AvatarRepository avatarRepository;
-
     private final StudentRepository studentRepository;
 
     public AvatarService(AvatarRepository avatarRepository, StudentRepository studentRepository) {
@@ -28,10 +25,12 @@ public class AvatarService {
         this.studentRepository = studentRepository;
     }
 
-    @Value("/avatars")
+    @Value("${path.to.avatars.folder}")
     private String avatarsDir;
 
 
+
+    @Override
     public void uploadAvatar(Long studentId, MultipartFile avatarFile) throws IOException {
         Student student = studentRepository.getById(studentId);
         Path filePath = Path.of(avatarsDir, student + "." + getExtensions(avatarFile.getOriginalFilename()));
@@ -55,8 +54,8 @@ public class AvatarService {
         avatarRepository.save(avatar);
     }
 
-    private Avatar findAvatar(Long studentId) {
-        return avatarRepository.findAvatarById(studentId);
+    public Avatar findAvatar(Long studentId) {
+        return avatarRepository.findAvatarByStudentId(studentId).orElse(new Avatar());
     }
 
 

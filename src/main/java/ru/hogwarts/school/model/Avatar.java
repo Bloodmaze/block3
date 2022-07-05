@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 public class Avatar {
-@GeneratedValue
+@GeneratedValue(strategy = GenerationType.IDENTITY)
 @Id
     private Long id;
     private String filePath;
@@ -13,7 +13,7 @@ public class Avatar {
     @Lob
     private byte[] data;
     @OneToOne
-    Student student;
+    private Student student;
 
     public Avatar() {
 
@@ -76,4 +76,5 @@ public class Avatar {
         this.data = data;
         this.student = student;
     }
+
 }
