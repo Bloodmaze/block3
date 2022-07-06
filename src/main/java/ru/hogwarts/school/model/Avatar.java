@@ -4,13 +4,12 @@ import javax.persistence.*;
 
 @Entity
 public class Avatar {
-@GeneratedValue(strategy = GenerationType.IDENTITY)
-@Id
+    @GeneratedValue
+    @Id
     private Long id;
     private String filePath;
     private Long fileSize;
     private String mediaType;
-    @Lob
     private byte[] data;
     @OneToOne
     private Student student;
