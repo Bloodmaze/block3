@@ -1,6 +1,8 @@
 package ru.hogwarts.school.service;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -13,16 +15,18 @@ import ru.hogwarts.school.repository.StudentRepository;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Objects;
+import java.util.List;
 import java.util.Optional;
 
 import static java.nio.file.StandardOpenOption.CREATE_NEW;
 
+@Transactional
 @Service
 public class AvatarService implements AvatarServiceImpl {
 
     private final AvatarRepository avatarRepository;
     private final StudentRepository studentRepository;
+
 
     public AvatarService(AvatarRepository avatarRepository, StudentRepository studentRepository) {
         this.avatarRepository = avatarRepository;
@@ -31,7 +35,6 @@ public class AvatarService implements AvatarServiceImpl {
 
     @Value("${path.to.avatars.folder}")
     private String avatarsDir;
-
 
 
     @Override
@@ -61,6 +64,12 @@ public class AvatarService implements AvatarServiceImpl {
 
     public Avatar findAvatar(Long studentId) {
         return avatarRepository.findAvatarByStudentId(studentId).orElse(new Avatar());
+    }
+
+    @Override
+    public List<Avatar> findAll() {
+        Pageable pagerequest = PageRequest.of(0, 2);
+        return avatarRepository.findAll(pagerequest).getContent();
     }
 
 

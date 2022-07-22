@@ -18,6 +18,24 @@ public class StudentController {
         this.studentService = studentService;
     }
 
+
+    @GetMapping("/getStudentsAmount")
+    public Integer getStudentsAmount() {
+        return studentService.getStudentsAmount();
+    }
+
+    @GetMapping("/avgAgeStudent")
+    public Double avgAgeStudent() {
+        return studentService.avgAgeStudent();
+
+    }
+
+    @GetMapping("/lastFiveStudents")
+    public ResponseEntity<List<Student>> lastFiveStudents() {
+        List<Student> studentList = studentService.lastFiveStudents();
+        return ResponseEntity.ok(studentList);
+    }
+
     @GetMapping("/filter")
     public ResponseEntity<List<Student>> filterByAge(Integer age) {
         List<Student> listStudents = studentService.filterByAge(age);

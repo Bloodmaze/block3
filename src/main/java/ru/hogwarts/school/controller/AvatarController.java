@@ -15,6 +15,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 
 @RestController
 @RequestMapping()
@@ -31,6 +32,13 @@ public class AvatarController {
     public ResponseEntity<String> uploadAvatar(@PathVariable Long studentId, @RequestParam MultipartFile avatarFile) throws IOException {
         avatarService.uploadAvatar(studentId, avatarFile);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/findAll")
+
+    public List<Avatar> findAll() {
+        List<Avatar> avatars = avatarService.findAll();
+        return avatars;
     }
 
     @GetMapping(value = "/{id}/avatar-from-db")

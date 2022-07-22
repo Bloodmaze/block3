@@ -19,6 +19,19 @@ public class StudentService {
         this.studentRepository = studentRepository;
     }
 
+
+    public Integer getStudentsAmount(){
+        return studentRepository.getStudentsAmount();
+
+    }
+
+    public Double avgAgeStudent(){
+        return studentRepository.avgAgeStudent();
+    }
+
+    public List<Student> lastFiveStudents(){
+        return studentRepository.lastFiveStudents();
+    }
     public Faculty getStudentFaculty(Long id) {
         Student student = studentRepository.findById(id).orElseThrow(() -> new NotFoundException("Student not found"));
         return student.getFaculty();
