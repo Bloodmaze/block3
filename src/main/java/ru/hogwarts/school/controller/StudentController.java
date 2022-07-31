@@ -19,6 +19,18 @@ public class StudentController {
     }
 
 
+    @GetMapping("/printStudentNames")
+    public ResponseEntity printStudentNames() {
+        studentService.printStudentNames();
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/printStudentNamesSync")
+    public ResponseEntity printStudentNamesSync() {
+        studentService.printStudentNamesSync();
+        return ResponseEntity.ok().build();
+    }
+
 
     @GetMapping("/getStudentsWithNameStartsA")
     public ResponseEntity getStudentsWithNameStartsA() {

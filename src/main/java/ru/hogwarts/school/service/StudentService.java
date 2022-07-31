@@ -24,6 +24,52 @@ public class StudentService {
         this.studentRepository = studentRepository;
     }
 
+
+    public void printStudentNames() {
+        final List<String> list = studentRepository.findAll().stream()
+                .map(Student::getName).toList();
+
+        System.out.println(list.get(0));
+        System.out.println(list.get(1));
+
+
+        new Thread(() -> {
+            System.out.println(list.get(2));
+            System.out.println(list.get(3));
+        }).start();
+
+        new Thread(() -> {
+            System.out.println(list.get(4));
+            System.out.println(list.get(5));
+        }).start();
+
+
+    }
+
+    public void printStudentNamesSync() {
+        run(0);
+        run(1);
+
+
+        new Thread(() -> {
+            run(2);
+            run(3);
+        }).start();
+
+        new Thread(() -> {
+            run(4);
+            run(5);
+        }).start();
+
+
+    }
+
+    private synchronized void run(int id) {
+        String students = studentRepository.findAll().get(id).getName();
+
+        System.out.println(students);
+    }
+
     public List<String> getStudentsWithNameStartsA() {
         return studentRepository.findAll().stream()
                 .map(a -> a.getName().toUpperCase())
@@ -34,7 +80,7 @@ public class StudentService {
 
     public double getAverageAgeByStream() {
         return studentRepository.findAll().stream()
-                .mapToDouble(a -> a.getAge())
+                .mapToDouble(Student::getAge)
                 .average().orElseThrow();
     }
 
@@ -95,6 +141,7 @@ public class StudentService {
 
         return studentRepository.findStudentByAgeBetween(min, max);
     }
+
 
 }
 
