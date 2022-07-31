@@ -19,6 +19,20 @@ public class FacultyController {
     }
 
 
+    @GetMapping("/getFacultyLongName")
+    public ResponseEntity getFacultyLongName() {
+        try {
+            return ResponseEntity.ok(facultyService.getFacultyLongName());
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+    @GetMapping("/getSum/{variants}")
+    public ResponseEntity getSum(@PathVariable Integer variants) {
+        return ResponseEntity.ok(facultyService.getSum(variants));
+    }
+
+
     @GetMapping
     public ResponseEntity<List<Student>> getFacultyStudent(@RequestParam Long id) {
         return ResponseEntity.ok(facultyService.getFacultyStudent(id));

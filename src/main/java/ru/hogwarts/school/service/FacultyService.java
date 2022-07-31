@@ -11,7 +11,9 @@ import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repository.FacultyRepository;
 
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
 
 @Service
 public class FacultyService {
@@ -25,6 +27,28 @@ public class FacultyService {
 
     public FacultyService(FacultyRepository facultyRepository) {
         this.facultyRepository = facultyRepository;
+    }
+
+
+    public String getFacultyLongName() {
+        return facultyRepository.findAll().stream().map(a -> a.getName()).max((a, b) -> a.length() - b.length()).orElseThrow();
+    }
+
+    public int getSum(int variants) {
+        final int size = 1000000;
+        switch (variants) {
+            case 0:
+                return Stream.iterate(1, a -> a + 1).limit(size).reduce(0, (a, b) -> a + b);
+            case 1:
+                return Stream.iterate(1, a -> a + 1).parallel().limit(size).reduce(0, (a, b) -> a + b);
+            case 3:
+                int sum = 0;
+                for (int i = 0; i < size; i++) {
+                    sum += (i + 1);
+                }
+                return sum;
+        }
+        throw new RuntimeException("Doesnt support");
     }
 
     public List<Student> getFacultyStudent(Long id) {
@@ -59,10 +83,10 @@ public class FacultyService {
     public List<Faculty> findFacultyByNameOrColor(String nameOrColor) {
         logger.info("A method was called to get faculties by name or color");
 
-            return facultyRepository.findFacultyByNameIgnoreCaseOrColorIgnoreCase(nameOrColor,nameOrColor);
-        }
-
+        return facultyRepository.findFacultyByNameIgnoreCaseOrColorIgnoreCase(nameOrColor, nameOrColor);
     }
+
+}
 
 
 
