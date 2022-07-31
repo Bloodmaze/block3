@@ -1,5 +1,7 @@
 package ru.hogwarts.school.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -27,6 +29,8 @@ public class AvatarService implements AvatarServiceImpl {
     private final AvatarRepository avatarRepository;
     private final StudentRepository studentRepository;
 
+    private final Logger logger = LoggerFactory.getLogger(FacultyService.class);
+
 
     public AvatarService(AvatarRepository avatarRepository, StudentRepository studentRepository) {
         this.avatarRepository = avatarRepository;
@@ -40,6 +44,7 @@ public class AvatarService implements AvatarServiceImpl {
     @Override
     @Transactional
     public void uploadAvatar(Long studentId, MultipartFile avatarFile) throws IOException {
+        logger.info("A method was called to add an avatar");
         Optional<Student> st = studentRepository.findById(studentId);
         Student student = st.orElseThrow(() -> new NotFoundException("Студент с id" + studentId + "не найден!"));
         Path filePath = Path.of(avatarsDir, student + "." + getExtensions(avatarFile.getOriginalFilename()));
@@ -63,17 +68,20 @@ public class AvatarService implements AvatarServiceImpl {
     }
 
     public Avatar findAvatar(Long studentId) {
+        logger.info("A method was called to find an avatar by id");
         return avatarRepository.findAvatarByStudentId(studentId).orElse(new Avatar());
     }
 
     @Override
     public List<Avatar> findAll() {
+        logger.info("A method was called to find all avatars with paging");
         Pageable pagerequest = PageRequest.of(0, 2);
         return avatarRepository.findAll(pagerequest).getContent();
     }
 
 
     private String getExtensions(String fileName) {
+        logger.info("A method was called to get extension of file");
         return fileName.substring(fileName.lastIndexOf(".") + 1);
     }
 }
