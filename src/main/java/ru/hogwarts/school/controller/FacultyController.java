@@ -33,7 +33,7 @@ public class FacultyController {
     }
 
 
-    @GetMapping
+    @GetMapping()
     public ResponseEntity<List<Student>> getFacultyStudent(@RequestParam Long id) {
         return ResponseEntity.ok(facultyService.getFacultyStudent(id));
     }

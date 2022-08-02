@@ -89,7 +89,7 @@ public class StudentController {
         return ResponseEntity.ok(student);
     }
 
-    @GetMapping
+    @GetMapping("/findStudentByAgeBetween")
     public ResponseEntity<List<Student>> findStudentByAgeBetween(Integer min, Integer max) {
         List<Student> students = studentService.findStudentByAgeBetween(min, max);
         return ResponseEntity.ok(students);

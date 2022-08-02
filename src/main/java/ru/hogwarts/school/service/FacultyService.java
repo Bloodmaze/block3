@@ -41,7 +41,7 @@ public class FacultyService {
                 return Stream.iterate(1, a -> a + 1).limit(size).reduce(0, (a, b) -> a + b);
             case 1:
                 return Stream.iterate(1, a -> a + 1).parallel().limit(size).reduce(0, (a, b) -> a + b);
-            case 3:
+            case 2:
                 int sum = 0;
                 for (int i = 0; i < size; i++) {
                     sum += (i + 1);
